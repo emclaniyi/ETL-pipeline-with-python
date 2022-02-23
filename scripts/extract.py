@@ -1,21 +1,10 @@
 import os
 from zipfile import ZipFile
 
-"""filepath = "C:\\Users\\User\\Downloads\\spotify_dataset.zip"
-
-
-with ZipFile(filepath, mode='r') as f:
-    name_list = f.namelist()
-    print('List of files:', name_list)
-    extract_path = f.extractall(path="C:\\Users\\User\\PycharmProjects\\ETL-pipeline-with-python")
-    print('Extract Path:', extract_path)"""
-
-
-#paths
-
+# paths
 base_path = "C:\\Users\\User\\PycharmProjects\\ETL-pipeline-with-python"
 source_url = "C:\\Users\\User\\Downloads\\spotify_dataset.zip"
-source_path = f"{base_path}/data/raw"
+raw_path = f"{base_path}/raw"
 
 
 def create_directory(path):
@@ -27,13 +16,18 @@ def create_directory(path):
     os.makedirs(os.path.dirname(path), exist_ok=False)
 
 
-def extract_csv(source_url, source_path):
-    #create_directory(source_path)
-    with ZipFile(source_url, mode='r') as f:
+def extract_csv(url, path):
+    # create_directory(source_path)
+    with ZipFile(url, mode='r') as f:
         name_list = f.namelist()
         print('List of files:', name_list)
-        extract_path = f.extractall(path=source_path)
-        print('Extract Path:', extract_path)
+        f.extractall(path=path)
 
 
-extract_csv(source_url, source_path)
+extract_csv(source_url, raw_path)
+
+def main():
+    print("[Extract] start")
+    print("[Extract] create directory")
+    print(f"[Extract] saving data to '{raw_path}'")
+    print("[Extract] End")
