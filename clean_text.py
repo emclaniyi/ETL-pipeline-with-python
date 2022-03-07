@@ -8,7 +8,7 @@ text1 = text1.lower()
 text1 = re.sub("['\"\[\]()*$]", "", text)
 print(text1)
 
-base_path = "C:\\Users\\User\\PycharmProjects\\ETL-pipeline-with-python"
+base_path = "C:\\Users\\EM\\PycharmProjects\\ETL-pipeline-with-python"
 raw_path = f"{base_path}/raw/data/"
 print(os.listdir(raw_path))
 df_list = []

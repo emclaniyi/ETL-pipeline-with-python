@@ -1,9 +1,5 @@
 # created by virtualenv automatically
-/shelf/
 /workspace.xml
 /venv
-<<<<<<< HEAD
-\.idea
-=======
 /.idea
->>>>>>> origin/master
+
