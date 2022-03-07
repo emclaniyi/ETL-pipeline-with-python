@@ -24,10 +24,11 @@ def extract_csv(url, path):
         f.extractall(path=path)
 
 
-extract_csv(source_url, raw_path)
+
 
 def main():
     print("[Extract] start")
     print("[Extract] create directory")
+    extract_csv(source_url, raw_path)
     print(f"[Extract] saving data to '{raw_path}'")
     print("[Extract] End")

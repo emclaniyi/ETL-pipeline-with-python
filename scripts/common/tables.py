@@ -1,10 +1,28 @@
-from sqlalchemy import Column, Integer, String, Float
-from common.base import Base
+from sqlalchemy import Column, Integer, String, Float, Identity
+import base as b
 
+class ArtistsRawAll(b.Base):
+    __tablename__ = "artists_raw_all"
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    mode = Column(String(55))
+    count = Column(String(55))
+    acousticness = Column(String(55))
+    artists = Column(String(500))
+    danceability = Column(String(55))
+    duration_ms = Column(String(55))
+    energy = Column(String(55))
+    instrumentalness = Column(String(55))
+    liveness = Column(String(55))
+    loudness = Column(String(55))
+    speechiness = Column(String(55))
+    tempo = Column(String(55))
+    valence = Column(String(55))
+    popularity = Column(String(55))
+    key = Column(String(55))
 
-class Artists(Base):
+class Artists(b.Base):
     __tablename__ = "artists"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
     count = Column(Integer)
     acousticness = Column(Float)
@@ -22,9 +40,27 @@ class Artists(Base):
     key = Column(Integer)
 
 
-class Year(Base):
+class YearRawAll(b.Base):
+    __tablename__ = "year_raw_all"
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    mode = Column(String(55))
+    year = Column(String(55))
+    acousticness = Column(String(55))
+    danceability = Column(String(55))
+    duration_ms = Column(String(55))
+    energy = Column(String(55))
+    instrumentalness = Column(String(55))
+    liveness = Column(String(55))
+    loudness = Column(String(55))
+    speechiness = Column(String(55))
+    tempo = Column(String(55))
+    valence = Column(String(55))
+    popularity = Column(String(55))
+    key = Column(String(55))
+
+class Year(b.Base):
     __tablename__ = "year"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
     year = Column(Integer)
     acousticness = Column(Float)
@@ -41,9 +77,28 @@ class Year(Base):
     key = Column(Integer)
 
 
-class Genre(Base):
+class GenreRawAll(b.Base):
+    __tablename__ = "genre_raw_all"
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    mode = Column(String(55))
+    genre = Column(String(500))
+    acousticness = Column(String(55))
+    danceability = Column(String(55))
+    duration_ms = Column(String(55))
+    energy = Column(String(55))
+    instrumentalness = Column(String(55))
+    liveness = Column(String(55))
+    loudness = Column(String(55))
+    speechiness = Column(String(55))
+    tempo = Column(String(55))
+    valence = Column(String(55))
+    popularity = Column(String(55))
+    key = Column(Integer)
+
+
+class Genre(b.Base):
     __tablename__ = "genre"
-    id = Column(Integer, primary_key=True, autoincrement=True)
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
     genre = Column(String(500))
     acousticness = Column(Float)
@@ -60,8 +115,32 @@ class Genre(Base):
     key = Column(Integer)
 
 
-class Track(Base):
+class TrackRawAll(b.Base):
+    __tablename__ = "track_raw_all"
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    valence = Column(String(55))
+    year = Column(String(55))
+    acousticness = Column(String(55))
+    artists = Column(String(5000))
+    danceability = Column(String(55))
+    duration_ms = Column(String(55))
+    energy = Column(String(55))
+    explicit = Column(String(55))
+    instrumentalness = Column(String(55))
+    key = Column(String(55))
+    liveness = Column(String(55))
+    loudness = Column(String(55))
+    mode = Column(String(55))
+    name = Column(String(1000))
+    popularity = Column(String(55))
+    release_date = Column(String(55))
+    speechiness = Column(String(55))
+    tempo = Column(String(55))
+
+
+class Track(b.Base):
     __tablename__ = "track"
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     valence = Column(Float)
     year = Column(Integer)
     acousticness = Column(Float)
@@ -70,7 +149,7 @@ class Track(Base):
     duration_ms = Column(Float)
     energy = Column(Float)
     explicit = Column(Integer)
-    id = Column(Integer, primary_key=True)
+    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     instrumentalness = Column(Float)
     key = Column(Integer)
     liveness = Column(Float)

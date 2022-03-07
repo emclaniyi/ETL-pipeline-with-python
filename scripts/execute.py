@@ -6,6 +6,6 @@ if __name__ == "__main__":
     # run extract
     extract.main()
     # run transform
-    transform.main()
+    #transform.main()
     # run load
     # load.main()

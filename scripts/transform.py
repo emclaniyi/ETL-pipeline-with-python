@@ -36,8 +36,12 @@ def transform_tracks_data():
         for row in reader:
             # Apply transformations and save as track object
             track_object.append(
-                Track(
+                TrackRawAll(
+                    valence = row['valence'],
+                    year = row['year'],
+                    acousticness = row['acousticness'],
                     artists=clean_text(transform_case(row["artists"])),
+
                 )
             )
         # Save all new processed objects and commit
