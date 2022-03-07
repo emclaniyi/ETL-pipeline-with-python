@@ -2,4 +2,8 @@
 /shelf/
 /workspace.xml
 /venv
+<<<<<<< HEAD
 \.idea
+=======
+/.idea
+>>>>>>> origin/master
