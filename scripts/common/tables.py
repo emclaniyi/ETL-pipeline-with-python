@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, Identity
-import base as b
+from sqlalchemy import Column, Integer, String, Float, Identity,Date
+import common.base as b
 
 
 class ArtistsRawAll(b.Base):
@@ -137,7 +137,7 @@ class TracksRawAll(b.Base):
     mode = Column(String(55))
     name = Column(String(1000))
     popularity = Column(String(55))
-    release_date = Column(String(55))
+    #release_date = Column(String(55))
     speechiness = Column(String(55))
     tempo = Column(String(55))
 
@@ -161,6 +161,6 @@ class Tracks(b.Base):
     mode = Column(Integer)
     name = Column(String(1000))
     popularity = Column(Integer)
-    release_date = Column(Integer)
+    #release_date = Column(Date)
     speechiness = Column(Float)
     tempo = Column(Float)

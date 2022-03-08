@@ -1,9 +1,10 @@
 import os
 from zipfile import ZipFile
+import pandas as pd
 
 # paths
-base_path = "C:\\Users\\User\\PycharmProjects\\ETL-pipeline-with-python"
-source_url = "C:\\Users\\User\\Downloads\\spotify_dataset.zip"
+base_path = "C:\\Users\\EM\PycharmProjects\\ETL-pipeline-with-python"
+source_url = "C:\\Users\\EM\\Desktop\\NEWMOVE\\spotify_dataset.zip"
 raw_path = f"{base_path}/raw"
 
 
@@ -22,8 +23,10 @@ def extract_csv(url, path):
         name_list = f.namelist()
         print('List of files:', name_list)
         f.extractall(path=path)
-
-
+        #drop repeated columns
+        csv_file = pd.read_csv(f"{base_path}/raw/data/data.csv", low_memory=False)
+        csv_file = csv_file.drop(['release_date'], axis=1)
+        csv_file.to_csv(f'{raw_path}/data/tracks.csv')
 
 
 def main():

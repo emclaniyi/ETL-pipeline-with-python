@@ -24,8 +24,9 @@ def insert_tracks():
         cast(TracksRawAll.liveness, Float),
         cast(TracksRawAll.loudness, Float),
         cast(TracksRawAll.mode, Integer),
+        TracksRawAll.name,
         cast(TracksRawAll.popularity, Integer),
-        cast(TracksRawAll.release_date, Integer),
+        #cast(TracksRawAll.release_date, Date),
         cast(TracksRawAll.speechiness, Float),
         cast(TracksRawAll.tempo, Float)
     ).filter(~TracksRawAll.track_id.in_(clean_track_id))
@@ -84,8 +85,7 @@ def insert_genres():
 
     columns = ['mode', 'genres', 'acousticness', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
                'liveness',
-               'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key',
-               ]
+               'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
 
     stmt = insert(Genre).from_select(columns, genres_to_insert)
     session.execute(stmt)
@@ -107,12 +107,113 @@ def delete_genres():
     session.commit()
 
 
+def insert_artists():
+    # select track id
+    clean_artist_id = session.query(Artists.artist_id)
+
+    # select columns and cast appropriate when needed
+    artists_to_insert = session.query(
+        cast(ArtistsRawAll.mode, Integer),
+        cast(ArtistsRawAll.count, Integer),
+        cast(ArtistsRawAll.acousticness, Float),
+        ArtistsRawAll.artists,
+        cast(GenreRawAll.danceability, Float),
+        cast(GenreRawAll.duration_ms, Float),
+        cast(GenreRawAll.energy, Float),
+        cast(GenreRawAll.instrumentalness, Float),
+        cast(GenreRawAll.liveness, Float),
+        cast(GenreRawAll.loudness, Float),
+        cast(GenreRawAll.speechiness, Float),
+        cast(GenreRawAll.tempo, Float),
+        cast(GenreRawAll.valence, Float),
+        cast(GenreRawAll.popularity, Integer),
+        cast(GenreRawAll.key, Integer),
+    ).filter(~GenreRawAll.genre_id.in_(clean_artist_id))
+
+    # print number of transactions to insert
+    print("Tracks to insert: ", artists_to_insert.count())
+
+    columns = ['mode', 'count', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
+               'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
+
+    stmt = insert(Genre).from_select(columns, artists_to_insert)
+    session.execute(stmt)
+    session.commit()
+
+
+def delete_artists():
+    """
+        Delete operation: delete any row not present in the last snapshot
+    """
+    raw_artist_id = session.query(ArtistsRawAll.genre_id)
+
+    artists_to_delete = session.query(Artists).filter(~Artists.artist_id.in_(raw_artist_id))
+
+    # print number of transactions to delete
+    print("Genres to delete: ", artists_to_delete.count())
+
+    artists_to_delete.delete(synchronize_session=False)
+    session.commit()
+
+
+def insert_year():
+    # select track id
+    clean_year_id = session.query(Year.year_id)
+
+    # select columns and cast appropriate when needed
+    year_to_insert = session.query(
+        cast(YearRawAll.mode, Integer),
+        cast(YearRawAll.year, Integer),
+        cast(YearRawAll.acousticness, Float),
+        cast(YearRawAll.danceability, Float),
+        cast(YearRawAll.duration_ms, Float),
+        cast(YearRawAll.energy, Float),
+        cast(YearRawAll.instrumentalness, Float),
+        cast(YearRawAll.liveness, Float),
+        cast(YearRawAll.loudness, Float),
+        cast(YearRawAll.speechiness, Float),
+        cast(YearRawAll.tempo, Float),
+        cast(YearRawAll.valence, Float),
+        cast(YearRawAll.popularity, Integer),
+        cast(YearRawAll.key, Integer),
+    ).filter(~YearRawAll.year_id.in_(clean_year_id))
+
+    # print number of transactions to insert
+    print("Tracks to insert: ", year_to_insert.count())
+
+    columns = ['mode', 'year', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
+               'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
+
+    stmt = insert(Genre).from_select(columns, year_to_insert)
+    session.execute(stmt)
+    session.commit()
+
+
+def delete_year():
+    """
+        Delete operation: delete any row not present in the last snapshot
+    """
+    raw_year_id = session.query(ArtistsRawAll.genre_id)
+
+    year_to_delete = session.query(Year).filter(~Year.artist_id.in_(raw_year_id))
+
+    # print number of transactions to delete
+    print("Genres to delete: ", year_to_delete.count())
+
+    year_to_delete.delete(synchronize_session=False)
+    session.commit()
+
+
 def main():
     print("[Load] Start")
     print("[Load] Inserting new rows")
     insert_tracks()
     insert_genres()
+    insert_artists()
+    insert_year()
     print("[Load] Deleting rows not available in the new transformed data")
     delete_tracks()
     delete_genres()
+    delete_artists()
+    delete_year()
     print("[Load] End")

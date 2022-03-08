@@ -8,4 +8,4 @@ if __name__ == "__main__":
     # run transform
     transform.main()
     # run load
-    # load.main()
+    load.main()

@@ -1,12 +1,12 @@
 import re
 import csv
 
-from common.tables import ArtistsRawAll, TrackRawAll, YearRawAll, GenreRawAll
+from common.tables import ArtistsRawAll, TracksRawAll, YearRawAll, GenreRawAll
 from common.base import session
 from sqlalchemy import text
 
 # settings
-base_path = "C:\\Users\\User\\PycharmProjects\\ETL-pipeline-with-python"
+base_path = "C:\\Users\\EM\PycharmProjects\\ETL-pipeline-with-python"
 
 
 # raw_path = f"{base_path}/raw/data/data.csv"
@@ -30,7 +30,7 @@ def truncate_table(table):
 
 # transform tracks
 def transform_tracks_data():
-    with open(f"{base_path}/raw/data/data.csv", mode="r", encoding="utf8") as csv_file:
+    with open(f"{base_path}/raw/data/tracks.csv", mode="r", encoding="utf8") as csv_file:
         # Read the new CSV snapshot ready to be processed
         reader = csv.DictReader(csv_file)
         # Initialize an empty list for our track objects
@@ -38,7 +38,7 @@ def transform_tracks_data():
         for row in reader:
             # Apply transformations and save as track object
             track_raw_object.append(
-                TrackRawAll(
+                TracksRawAll(
                     valence=row['valence'],
                     year=row['year'],
                     acousticness=row['acousticness'],
@@ -54,7 +54,7 @@ def transform_tracks_data():
                     mode=row['mode'],
                     name=row['name'],
                     popularity=row['popularity'],
-                    release_date=row['release_date'],
+                    #release_date=row['release_date'],
                     speechiness=row['speechiness'],
                     tempo=row['tempo']
                 )
@@ -139,7 +139,7 @@ def transform_year_data():
         for row in reader:
             # Apply transformations and save as track object
             year_raw_object.append(
-                GenreRawAll(
+                YearRawAll(
                     mode=row['mode'],
                     year=row['year'],
                     acousticness=row['acousticness'],
