@@ -1,9 +1,10 @@
 from sqlalchemy import Column, Integer, String, Float, Identity
 import base as b
 
+
 class ArtistsRawAll(b.Base):
     __tablename__ = "artists_raw_all"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    artist_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(String(55))
     count = Column(String(55))
     acousticness = Column(String(55))
@@ -20,9 +21,10 @@ class ArtistsRawAll(b.Base):
     popularity = Column(String(55))
     key = Column(String(55))
 
+
 class Artists(b.Base):
     __tablename__ = "artists"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    artist_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
     count = Column(Integer)
     acousticness = Column(Float)
@@ -42,7 +44,7 @@ class Artists(b.Base):
 
 class YearRawAll(b.Base):
     __tablename__ = "year_raw_all"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    year_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(String(55))
     year = Column(String(55))
     acousticness = Column(String(55))
@@ -58,9 +60,10 @@ class YearRawAll(b.Base):
     popularity = Column(String(55))
     key = Column(String(55))
 
+
 class Year(b.Base):
     __tablename__ = "year"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    year_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
     year = Column(Integer)
     acousticness = Column(Float)
@@ -79,9 +82,9 @@ class Year(b.Base):
 
 class GenreRawAll(b.Base):
     __tablename__ = "genre_raw_all"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    genre_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(String(55))
-    genre = Column(String(500))
+    genres = Column(String(500))
     acousticness = Column(String(55))
     danceability = Column(String(55))
     duration_ms = Column(String(55))
@@ -98,9 +101,9 @@ class GenreRawAll(b.Base):
 
 class Genre(b.Base):
     __tablename__ = "genre"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    genre_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     mode = Column(Integer)
-    genre = Column(String(500))
+    genres = Column(String(500))
     acousticness = Column(Float)
     danceability = Column(Float)
     duration_ms = Column(Float)
@@ -115,9 +118,9 @@ class Genre(b.Base):
     key = Column(Integer)
 
 
-class TrackRawAll(b.Base):
+class TracksRawAll(b.Base):
     __tablename__ = "track_raw_all"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    track_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     valence = Column(String(55))
     year = Column(String(55))
     acousticness = Column(String(55))
@@ -126,6 +129,7 @@ class TrackRawAll(b.Base):
     duration_ms = Column(String(55))
     energy = Column(String(55))
     explicit = Column(String(55))
+    id = Column(String(255))
     instrumentalness = Column(String(55))
     key = Column(String(55))
     liveness = Column(String(55))
@@ -138,9 +142,9 @@ class TrackRawAll(b.Base):
     tempo = Column(String(55))
 
 
-class Track(b.Base):
+class Tracks(b.Base):
     __tablename__ = "track"
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    track_id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
     valence = Column(Float)
     year = Column(Integer)
     acousticness = Column(Float)
@@ -149,7 +153,7 @@ class Track(b.Base):
     duration_ms = Column(Float)
     energy = Column(Float)
     explicit = Column(Integer)
-    id = Column(Integer, Identity(start=42, cycle=True), primary_key=True)
+    id = Column(String(255))
     instrumentalness = Column(Float)
     key = Column(Integer)
     liveness = Column(Float)
