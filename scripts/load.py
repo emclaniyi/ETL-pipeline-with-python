@@ -35,7 +35,7 @@ def insert_tracks():
     print("Tracks to insert: ", tracks_to_insert.count())
 
     columns = ['valence', 'year', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'explicit', 'id',
-               'instrumentalness', 'key', 'liveness', 'loudness', 'mode', 'name', 'popularity', 'release_date',
+               'instrumentalness', 'key', 'liveness', 'loudness', 'mode', 'name', 'popularity',
                'speechiness', 'tempo']
 
     stmt = insert(Tracks).from_select(columns, tracks_to_insert)
