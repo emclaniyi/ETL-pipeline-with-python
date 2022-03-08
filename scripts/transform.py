@@ -54,7 +54,6 @@ def transform_tracks_data():
                     mode=row['mode'],
                     name=row['name'],
                     popularity=row['popularity'],
-                    #release_date=row['release_date'],
                     speechiness=row['speechiness'],
                     tempo=row['tempo']
                 )
@@ -86,7 +85,7 @@ def transform_artists_data():
                     liveness=row['liveness'],
                     loudness=row['loudness'],
                     speechiness=row['speechiness'],
-                    tempo=['tempo'],
+                    tempo=row['tempo'],
                     valence=row['valence'],
                     popularity=row['popularity'],
                     key=row['key']
@@ -118,7 +117,7 @@ def transform_genres_data():
                     liveness=row['liveness'],
                     loudness=row['loudness'],
                     speechiness=row['speechiness'],
-                    tempo=['tempo'],
+                    tempo=row['tempo'],
                     valence=row['valence'],
                     popularity=row['popularity'],
                     key=row['key']
@@ -150,7 +149,7 @@ def transform_year_data():
                     liveness=row['liveness'],
                     loudness=row['loudness'],
                     speechiness=row['speechiness'],
-                    tempo=['tempo'],
+                    tempo=row['tempo'],
                     valence=row['valence'],
                     popularity=row['popularity'],
                     key=row['key']
@@ -164,10 +163,10 @@ def transform_year_data():
 def main():
     print("[Transform] Start")
     print("[Transform] remove old data from table")
-    truncate_table('track')
-    truncate_table('artists')
-    truncate_table('genre')
-    truncate_table('year')
+    truncate_table('track_raw_all')
+    truncate_table('artists_raw_all')
+    truncate_table('genre_raw_all')
+    truncate_table('year_raw_all')
     print("[Transform] run transformation")
     transform_tracks_data()
     transform_artists_data()

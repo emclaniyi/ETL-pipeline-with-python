@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Float, Identity,Date
+from sqlalchemy import Column, Integer, String, Float, Identity
 import common.base as b
 
 
@@ -36,7 +36,7 @@ class Artists(b.Base):
     liveness = Column(Float)
     loudness = Column(Float)
     speechiness = Column(Float)
-    tempo = Column(Float(precision=32))
+    tempo = Column(Float)
     valence = Column(Float)
     popularity = Column(Float)
     key = Column(Integer)
@@ -74,7 +74,7 @@ class Year(b.Base):
     liveness = Column(Float)
     loudness = Column(Float)
     speechiness = Column(Float)
-    tempo = Column(Float(precision=32))
+    tempo = Column(Float)
     valence = Column(Float)
     popularity = Column(Float)
     key = Column(Integer)
@@ -96,7 +96,7 @@ class GenreRawAll(b.Base):
     tempo = Column(String(55))
     valence = Column(String(55))
     popularity = Column(String(55))
-    key = Column(Integer)
+    key = Column(String(55))
 
 
 class Genre(b.Base):
@@ -112,7 +112,7 @@ class Genre(b.Base):
     liveness = Column(Float)
     loudness = Column(Float)
     speechiness = Column(Float)
-    tempo = Column(Float(precision=32))
+    tempo = Column(Float)
     valence = Column(Float)
     popularity = Column(Float)
     key = Column(Integer)
@@ -160,7 +160,6 @@ class Tracks(b.Base):
     loudness = Column(Float)
     mode = Column(Integer)
     name = Column(String(1000))
-    popularity = Column(Integer)
-    #release_date = Column(Date)
+    popularity = Column(Float)
     speechiness = Column(Float)
-    tempo = Column(Float(precision=32))
+    tempo = Column(Float)

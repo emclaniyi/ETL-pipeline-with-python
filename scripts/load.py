@@ -1,5 +1,5 @@
-from sqlalchemy import cast, delete, Integer, Date, Float
-from sqlalchemy.dialects.postgresql import insert
+from sqlalchemy import cast, Integer, Float, String
+from sqlalchemy.dialects.postgresql import insert, NUMERIC
 from common.base import session
 from common.tables import Artists, Genre, Tracks, Year, ArtistsRawAll, TracksRawAll, GenreRawAll, YearRawAll
 
@@ -18,15 +18,14 @@ def insert_tracks():
         cast(TracksRawAll.duration_ms, Float),
         cast(TracksRawAll.energy, Float),
         cast(TracksRawAll.explicit, Integer),
-        TracksRawAll.id,
+        cast(TracksRawAll.id, String),
         cast(TracksRawAll.instrumentalness, Float),
         cast(TracksRawAll.key, Integer),
         cast(TracksRawAll.liveness, Float),
         cast(TracksRawAll.loudness, Float),
         cast(TracksRawAll.mode, Integer),
         TracksRawAll.name,
-        cast(TracksRawAll.popularity, Integer),
-        #cast(TracksRawAll.release_date, Date),
+        cast(TracksRawAll.popularity, Float),
         cast(TracksRawAll.speechiness, Float),
         cast(TracksRawAll.tempo, Float)
     ).filter(~TracksRawAll.track_id.in_(clean_track_id))
@@ -76,7 +75,7 @@ def insert_genres():
         cast(GenreRawAll.speechiness, Float),
         cast(GenreRawAll.tempo, Float),
         cast(GenreRawAll.valence, Float),
-        cast(GenreRawAll.popularity, Integer),
+        cast(GenreRawAll.popularity, Float),
         cast(GenreRawAll.key, Integer),
     ).filter(~GenreRawAll.genre_id.in_(clean_genre_id))
 
@@ -84,8 +83,7 @@ def insert_genres():
     print("Genres to insert: ", genres_to_insert.count())
 
     columns = ['mode', 'genres', 'acousticness', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
-               'liveness',
-               'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
+               'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
 
     stmt = insert(Genre).from_select(columns, genres_to_insert)
     session.execute(stmt)
@@ -126,7 +124,7 @@ def insert_artists():
         cast(ArtistsRawAll.speechiness, Float),
         cast(ArtistsRawAll.tempo, Float),
         cast(ArtistsRawAll.valence, Float),
-        cast(ArtistsRawAll.popularity, Integer),
+        cast(ArtistsRawAll.popularity, Float),
         cast(ArtistsRawAll.key, Integer),
     ).filter(~ArtistsRawAll.artist_id.in_(clean_artist_id))
 
@@ -174,14 +172,14 @@ def insert_year():
         cast(YearRawAll.speechiness, Float),
         cast(YearRawAll.tempo, Float),
         cast(YearRawAll.valence, Float),
-        cast(YearRawAll.popularity, Integer),
+        cast(YearRawAll.popularity, Float),
         cast(YearRawAll.key, Integer),
     ).filter(~YearRawAll.year_id.in_(clean_year_id))
 
     # print number of transactions to insert
     print("Year to insert: ", year_to_insert.count())
 
-    columns = ['mode', 'year', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
+    columns = ['mode', 'year', 'acousticness', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
                'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
 
     stmt = insert(Year).from_select(columns, year_to_insert)
@@ -208,12 +206,12 @@ def main():
     print("[Load] Start")
     print("[Load] Inserting new rows")
     insert_tracks()
-    insert_genres()
     insert_artists()
     insert_year()
+    insert_genres()
     print("[Load] Deleting rows not available in the new transformed data")
     delete_tracks()
-    delete_genres()
     delete_artists()
     delete_year()
+    delete_genres()
     print("[Load] End")
