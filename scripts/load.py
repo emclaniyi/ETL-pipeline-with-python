@@ -81,7 +81,7 @@ def insert_genres():
     ).filter(~GenreRawAll.genre_id.in_(clean_genre_id))
 
     # print number of transactions to insert
-    print("Tracks to insert: ", genres_to_insert.count())
+    print("Genres to insert: ", genres_to_insert.count())
 
     columns = ['mode', 'genres', 'acousticness', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
                'liveness',
@@ -117,26 +117,26 @@ def insert_artists():
         cast(ArtistsRawAll.count, Integer),
         cast(ArtistsRawAll.acousticness, Float),
         ArtistsRawAll.artists,
-        cast(GenreRawAll.danceability, Float),
-        cast(GenreRawAll.duration_ms, Float),
-        cast(GenreRawAll.energy, Float),
-        cast(GenreRawAll.instrumentalness, Float),
-        cast(GenreRawAll.liveness, Float),
-        cast(GenreRawAll.loudness, Float),
-        cast(GenreRawAll.speechiness, Float),
-        cast(GenreRawAll.tempo, Float),
-        cast(GenreRawAll.valence, Float),
-        cast(GenreRawAll.popularity, Integer),
-        cast(GenreRawAll.key, Integer),
-    ).filter(~GenreRawAll.genre_id.in_(clean_artist_id))
+        cast(ArtistsRawAll.danceability, Float),
+        cast(ArtistsRawAll.duration_ms, Float),
+        cast(ArtistsRawAll.energy, Float),
+        cast(ArtistsRawAll.instrumentalness, Float),
+        cast(ArtistsRawAll.liveness, Float),
+        cast(ArtistsRawAll.loudness, Float),
+        cast(ArtistsRawAll.speechiness, Float),
+        cast(ArtistsRawAll.tempo, Float),
+        cast(ArtistsRawAll.valence, Float),
+        cast(ArtistsRawAll.popularity, Integer),
+        cast(ArtistsRawAll.key, Integer),
+    ).filter(~ArtistsRawAll.artist_id.in_(clean_artist_id))
 
     # print number of transactions to insert
-    print("Tracks to insert: ", artists_to_insert.count())
+    print("Artists to insert: ", artists_to_insert.count())
 
     columns = ['mode', 'count', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
                'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
 
-    stmt = insert(Genre).from_select(columns, artists_to_insert)
+    stmt = insert(Artists).from_select(columns, artists_to_insert)
     session.execute(stmt)
     session.commit()
 
@@ -145,12 +145,12 @@ def delete_artists():
     """
         Delete operation: delete any row not present in the last snapshot
     """
-    raw_artist_id = session.query(ArtistsRawAll.genre_id)
+    raw_artist_id = session.query(ArtistsRawAll.artist_id)
 
     artists_to_delete = session.query(Artists).filter(~Artists.artist_id.in_(raw_artist_id))
 
     # print number of transactions to delete
-    print("Genres to delete: ", artists_to_delete.count())
+    print("Artists to delete: ", artists_to_delete.count())
 
     artists_to_delete.delete(synchronize_session=False)
     session.commit()
@@ -179,12 +179,12 @@ def insert_year():
     ).filter(~YearRawAll.year_id.in_(clean_year_id))
 
     # print number of transactions to insert
-    print("Tracks to insert: ", year_to_insert.count())
+    print("Year to insert: ", year_to_insert.count())
 
     columns = ['mode', 'year', 'acousticness', 'artists', 'danceability', 'duration_ms', 'energy', 'instrumentalness',
                'liveness', 'loudness', 'speechiness', 'tempo', 'valence', 'popularity', 'key']
 
-    stmt = insert(Genre).from_select(columns, year_to_insert)
+    stmt = insert(Year).from_select(columns, year_to_insert)
     session.execute(stmt)
     session.commit()
 
@@ -193,12 +193,12 @@ def delete_year():
     """
         Delete operation: delete any row not present in the last snapshot
     """
-    raw_year_id = session.query(ArtistsRawAll.genre_id)
+    raw_year_id = session.query(YearRawAll.year_id)
 
-    year_to_delete = session.query(Year).filter(~Year.artist_id.in_(raw_year_id))
+    year_to_delete = session.query(Year).filter(~Year.year_id.in_(raw_year_id))
 
     # print number of transactions to delete
-    print("Genres to delete: ", year_to_delete.count())
+    print("Year to delete: ", year_to_delete.count())
 
     year_to_delete.delete(synchronize_session=False)
     session.commit()
